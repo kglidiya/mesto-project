@@ -1,0 +1,36 @@
+.popup__closebtn {
+  width: 32px;
+  height: 32px;
+  background: url(../../../images/Close-icon.svg) no-repeat center;
+  border: none;
+  background-size: cover;
+  background-color: #000000;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  transform: translate(-110%, -110%);
+}
+
+.popup__closebtn:hover {
+  opacity: 0.6;
+}
+
+
+@media all and (max-width: 530px) { /*добавила, чтобы убрать скрол от попапа*/
+  .popup__closebtn {
+    width: 20px;
+    height: 20px;
+    left: 100%;
+    top: -5%;
+  }
+}
+
+
+@media all and (max-width: 320px) {
+  .popup__closebtn {
+    width: 20px;
+    height: 20px;
+    left: 100%;
+    top: -5%;
+  }
+}

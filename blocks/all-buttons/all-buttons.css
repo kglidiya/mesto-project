@@ -1,0 +1,6 @@
+.all-buttons:hover {
+    cursor: url(../../images/pointer.svg), pointer;
+    transition: all ease-out 0.5s;
+    opacity: 0.6;
+  }
+  

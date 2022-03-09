@@ -1,0 +1,27 @@
+.places__checkbox_invisible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .places__checkbox_invisible + .places__checkbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: url(../../../../images/like-disabled.svg) no-repeat;
+    background-size: cover;
+    border: 0;
+    margin-top: 28px;
+  }
+  
+  .places__checkbox_invisible:hover + .places__checkbox {
+    background: url(../../../../images/like-hover.svg);
+  }
+  
+  .places__checkbox_invisible:checked + .places__checkbox {
+    background: url(../../../../images/like-active.svg);
+  }

@@ -1,0 +1,19 @@
+.profile__editbtn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ffffff;
+  background: url(../../../images/check-icon.svg) no-repeat center;
+  box-sizing: border-box;
+  background-size: 10px 10px;
+  margin-top: 15px;
+  margin-left: 18px;
+}
+
+@media all and (max-width: 320px) {
+  .profile__editbtn {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-top: 9px;
+  }
+}
