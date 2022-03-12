@@ -1,6 +1,7 @@
 .popup__content {
   max-width: 358px;
-  margin: auto;
+  margin-left: 8%;
+  margin-right: 8%;
   width: 100%;
 }
 

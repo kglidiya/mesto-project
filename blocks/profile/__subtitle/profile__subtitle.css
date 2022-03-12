@@ -4,7 +4,19 @@
   color: #ffffff;
   margin-bottom: 25px;
   margin-top: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 336px;
 }
+
+@media screen and (max-width: 696px) {
+  .profile__subtitle {
+    text-align: center;
+    margin: 0 auto 25px auto;
+  }
+}
+
 
 @media all and (max-width: 320px) {
   .profile__subtitle {
@@ -12,5 +24,6 @@
     line-height: 17px;
     margin-bottom: 36px;
     text-align: center;
+    width: 95%;
   }
 }

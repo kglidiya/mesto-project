@@ -8,6 +8,9 @@
   margin-top: 15px;
   margin-left: 18px;
 }
+.profile__editbtn:hover {
+  opacity: 0.6;
+}
 
 @media all and (max-width: 320px) {
   .profile__editbtn {

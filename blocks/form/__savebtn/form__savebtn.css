@@ -9,16 +9,17 @@
   border: none;
   color: #ffffff;
   margin-top: 15px;
+  font-family: inherit;
 }
 
 .form__savebtn:hover {
   opacity: 0.8;
-  
 }
 
 @media all and (max-width: 320px) {
   .form__savebtn {
     font-size: 14px;
     line-height: 17px;
+    margin-bottom: 25px;
   }
 }

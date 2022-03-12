@@ -8,10 +8,19 @@
   margin-left: auto;
 }
 
-@media all and (max-width: 320px) {
+.profile__addbtn:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 696px) {
   .profile__addbtn {
     margin: 0 auto 36px auto;
+    width: 50%;
+  }
+}
+
+@media all and (max-width: 320px) {
+  .profile__addbtn {
     width: 100%;
-    height: 50px;
   }
 }

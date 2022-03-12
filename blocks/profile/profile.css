@@ -4,11 +4,12 @@
   overflow: hidden;
 }
 
-@media all and (max-width: 320px) {
+@media screen and (max-width: 696px) {
   .profile {
     margin-top: 42px;
-    display: flex;
     flex-direction: column;
     align-items: center;
   }
 }
+
+
