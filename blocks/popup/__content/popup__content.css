@@ -1,18 +1,13 @@
 .popup__content {
   max-width: 358px;
   margin: auto;
-}
-
-
-@media all and (max-width: 530px) { /*добавила, чтобы убрать скрол от попапа*/
-  .popup__content {
-    max-width: 238px;
-  }
+  width: 100%;
 }
 
 
 @media all and (max-width: 320px) {
   .popup__content {
     max-width: 238px;
+   width: 100%;
   }
 }

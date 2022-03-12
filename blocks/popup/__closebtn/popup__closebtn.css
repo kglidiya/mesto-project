@@ -11,19 +11,8 @@
   transform: translate(-110%, -110%);
 }
 
-.popup__closebtn:hover {
-  opacity: 0.6;
-}
 
 
-@media all and (max-width: 530px) { /*добавила, чтобы убрать скрол от попапа*/
-  .popup__closebtn {
-    width: 20px;
-    height: 20px;
-    left: 100%;
-    top: -5%;
-  }
-}
 
 
 @media all and (max-width: 320px) {
