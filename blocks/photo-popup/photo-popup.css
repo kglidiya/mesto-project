@@ -1,4 +1,4 @@
-.popup {
+.photo-popup {
   opacity: 0;
   visibility: hidden;
   transition: visibility 0.5s, opacity 0.5s linear;
@@ -9,8 +9,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 6;
   justify-content: center;
   align-items: center;
 }

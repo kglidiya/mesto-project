@@ -1,7 +1,21 @@
 .places__container {
+    position: relative;
     background-color: white;
     border-radius: 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    height: 361px;
+    max-width: 282px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
+
+  @media (max-width: 320px) {
+    .places__container {
+      width: 95%;
+      min-height: 362px;
+    }
+  }
+  
