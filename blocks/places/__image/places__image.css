@@ -4,4 +4,9 @@
     object-fit: cover;
   }
 
+  .places__image:hover {
+   cursor: pointer;
+  }
+
+
  

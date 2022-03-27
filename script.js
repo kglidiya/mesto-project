@@ -1,73 +1,106 @@
-const editButton = document.querySelector('.profile__editbtn');
-const saveButton = document.querySelectorAll('.form__savebtn');
-const closeButton = document.querySelectorAll('.popup__closebtn');
-const addButton = document.querySelector('.profile__addbtn');
-const popupProfile = document.querySelector('.popup');
-const popupAddPlace = document.querySelector('.addplace-popup');
-const photoPopup = document.querySelector('.photo-popup');
+const imagePopup = document.querySelector('.image-popup');
+const profilePopup = document.querySelector('.profile-popup');
+const cardPopup = document.querySelector('.card-popup');
+const buttonEdit = document.querySelector('.profile__editbtn');
+const buttonsSave = document.querySelectorAll('.form__savebtn');
+const buttonsClose = document.querySelectorAll('.popup__closebtn');
+const buttonAdd = document.querySelector('.profile__addbtn');
+const formElementProfile = document.querySelector('.edit-profile');
+const formElementPlace = document.querySelector('.edit-place');
+const linkInput = document.querySelector('.form__input_link');
+const nameInput = document.querySelector('.form__input_name');
+const jobInput = document.querySelector('.form__input_job');
+const placeInput = document.querySelector('.form__input_place');
+const userName = document.querySelector('.profile__title');
+const userProffesion = document.querySelector('.profile__subtitle');
+const cardsContainer = document.querySelector('.places');
+const cardsTemplate = document.querySelector('.places-new').content;
 
 
-//Открытие попапа профиля
-editButton.addEventListener('click', open);
-function open() {
-  popupProfile.classList.add('popup_opened');
+//Открытие попапов
+
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 };
 
+buttonEdit.addEventListener('click', () => openPopup(profilePopup));
+buttonAdd.addEventListener('click', () => openPopup(cardPopup));
 
-//Открытие попапа добавления карточки
-addButton.addEventListener('click', function () {
-  popupAddPlace.classList.add('popup_opened');
+//Попап с фото открывается отдельно, т.к. там идет привязка к ссылке на фото 
+
+
+//Закрытие всех попапов
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+};
+
+buttonsClose.forEach(function (btn) {
+  btn.addEventListener('click', () => closePopup(profilePopup));
+  btn.addEventListener('click', () => closePopup(cardPopup));
+  btn.addEventListener('click', () => closePopup(imagePopup));
 });
 
-
-//Кнопки закрытия всех попапов
-closeButton.forEach(function (btn) {
-  btn.addEventListener('click', function close() {
-    popupProfile.classList.remove('popup_opened');
-    popupAddPlace.classList.remove('popup_opened');
-    photoPopup.classList.remove('photo-popup_opened');
-  });
-});
 
 //Заполение формы профиля
-const formElement = document.querySelector('.edit-profile');
+
 function formSubmitHandler(evt) {
   evt.preventDefault();
-  const userName = document.querySelector('.profile__title');
-  const userProffesion = document.querySelector('.profile__subtitle');
-  const nameInput = document.querySelector('.form__input_name');
-  const jobInput = document.querySelector('.form__input_job');
   userName.textContent = nameInput.value;
   userProffesion.textContent = jobInput.value;
-
+  closePopup(profilePopup);
 };
-formElement.addEventListener('submit', formSubmitHandler);
-
-//Заполение формы добавления карточки
-const formPlace = document.querySelector('.edit-place');
-function formSubmitHandler2(evt) {
-  evt.preventDefault();
-  const userPlace = document.querySelector('.places__title');
-  const userLink = document.querySelector('.places__image');
-  const placeInput = document.querySelector('.form__input_place');
-  const linkInput = document.querySelector('.form__input_link');
-  userPlace.textContent = placeInput.value;
-  userLink.src = linkInput.value;
-};
-formPlace.addEventListener('submit', formSubmitHandler2);
+formElementProfile.addEventListener('submit', formSubmitHandler);
 
 
-//Закрытие попапов после заполнения форм
-saveButton.forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    popupProfile.classList.remove('popup_opened');
-    popupAddPlace.classList.remove('popup_opened');
+//Создание  новой карточки из формы клонированием template
+
+function addNewPhoto() {
+  const placesElement = cardsTemplate.cloneNode(true);
+  placesElement.querySelector('.places__title').textContent = placeInput.value;
+  placesElement.querySelector('.places__image').src = linkInput.value;
+
+  //Добавление кнопок лайка и удаления карточки
+  placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
+    btn.target.classList.toggle('places__likebtn_active');
   });
-})
+
+  placesElement.querySelector('.places__deletebtn').addEventListener('click', function (btn) {
+    const placeContainer = btn.target.closest('.places__container');
+    placeContainer.remove();
+  });
+
+  cardsContainer.prepend(placesElement);
+
+  //Открытие попапа с новой карточкой
+  const cardContainer = document.querySelector('.places__container');
+  const image = document.querySelector('.places__image');
+
+  image.addEventListener('click', function open() {
+    imagePopup.classList.add('popup_opened');
+    document.querySelector('.image-popup__photolink').src = this.src;
+  });
+
+  cardContainer.addEventListener('click', function showImage() {
+    document.querySelector('.image-popup__caption').textContent = this.textContent;
+  });
+
+};
+
+
+//Добавление карточки из формы
+
+function renderCard(evt) {
+  evt.preventDefault();
+  addNewPhoto();
+  closePopup(cardPopup);
+  placeInput.value = '';
+  linkInput.value = '';
+};
+formElementPlace.addEventListener('submit', renderCard);
+
+
 
 //Клонирование template
-const places = document.querySelector('.places');
-const placesTemplate = document.querySelector('.places-new').content;
 
 const initialCards = [
   {
@@ -97,41 +130,44 @@ const initialCards = [
 ];
 
 
-initialCards.forEach(function (element) {
-  const placesElement = placesTemplate.cloneNode(true);
+function uploadInitialCards() {
 
-  placesElement.querySelector('.places__title').textContent = element.name;
-  placesElement.querySelector('.places__image').src = element.link;
+  initialCards.forEach(function (element) {
+    const placesElement = cardsTemplate.cloneNode(true);
+    placesElement.querySelector('.places__title').textContent = element.name;
+    placesElement.querySelector('.places__image').src = element.link;
 
-  placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
-    btn.target.classList.toggle('places__likebtn_active');
-  });
+    //Добавление кнопок лайков и удаления
+    placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
+      btn.target.classList.toggle('places__likebtn_active');
+    });
 
-  placesElement.querySelector('.places__deletebtn').addEventListener('click', function (btn) {
-    const place = btn.target.closest('.places__container');
-    place.remove();
-  })
-  places.append(placesElement);
-});
+    placesElement.querySelector('.places__deletebtn').addEventListener('click', function (btn) {
+      const placeContainer = btn.target.closest('.places__container');
+      placeContainer.remove();
+    })
 
+    const initialCardsImage = document.querySelectorAll('.places__image');
+    const initialCardsImageContainer = document.querySelectorAll('.places__container');
 
+    //Извините, я не соовсем поняла комментарий "Все слушатели устанавливаются в момент создания карточки"
+    //Ведь вся эта фукция - загрузка массива с фото. 
+    initialCardsImage.forEach(function open(item) {
+      item.addEventListener('click', function openPopup() {
+        imagePopup.classList.add('popup_opened');
+        document.querySelector('.image-popup__photolink').src = this.src;
 
-//Попап просмотра фото
-const card = document.querySelectorAll('.places__container');
-const photo = document.querySelectorAll('.places__image');
-
-photo.forEach(function open(item) {
-  item.addEventListener('click', function () {
-    photoPopup.classList.add('photo-popup_opened');
-    document.querySelector('.photo-popup__photolink').src = this.src;
-
-    card.forEach(function show(elem) {
-      elem.addEventListener('click', function () {
-        document.querySelector('.photo-popup__caption').textContent = this.textContent;
+        initialCardsImageContainer.forEach(function showCaption(elem) {
+          elem.addEventListener('click', function () {
+            document.querySelector('.image-popup__caption').textContent = this.textContent;
+          });
+        });
       });
     });
+
+    cardsContainer.append(placesElement)
   });
-});
 
+};
 
-
+uploadInitialCards();

@@ -5,13 +5,11 @@
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/addplace-popup/addplace_popup.css);
+@import url(../blocks/popup/_theme_dark/popup_theme_dark.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
-@import url(../blocks/photo-popup/photo-popup.css);
-@import url(../blocks/photo-popup/_opened/photo-popup_opened.css);
-@import url(../blocks/photo-popup/__caption/photo-popup__caption.css);
-@import url(../blocks/photo-popup/__container/photo-popup__container.css);
-@import url(../blocks/photo-popup/__photolink/photo-popup__photolink.css);
+@import url(../blocks/image-popup/__caption/image-popup__caption.css);
+@import url(../blocks/image-popup/__container/image-popup__container.css);
+@import url(../blocks/image-popup/__photolink/image-popup__photolink.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__content/popup__content.css);
 @import url(../blocks/popup/__container/popup__container.css);
