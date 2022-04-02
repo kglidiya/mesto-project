@@ -15,7 +15,8 @@ const userName = document.querySelector('.profile__title');
 const userProffesion = document.querySelector('.profile__subtitle');
 const cardsContainer = document.querySelector('.places');
 const cardsTemplate = document.querySelector('.places-new').content;
-
+const popupLink = document.querySelector('.image-popup__photolink');
+const popupCaption = document.querySelector('.image-popup__caption');
 
 //Открытие попапов
 
@@ -40,9 +41,11 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 };
 
-buttonsClose.forEach(btn => btn.addEventListener('click', () => closePopup(profilePopup)));
-buttonsClose.forEach(btn => btn.addEventListener('click', () => closePopup(cardPopup)));
-buttonsClose.forEach(btn => btn.addEventListener('click', () => closePopup(imagePopup)));
+buttonsClose.forEach(function (btn) {
+  btn.addEventListener('click', function (event) {
+    closePopup(event.target.closest('.popup'))
+  })
+})
 
 
 //Заполение формы профиля
@@ -91,6 +94,8 @@ function creatCard(caption, image) {
   const placesElement = cardsTemplate.cloneNode(true);
   placesElement.querySelector('.places__title').textContent = caption;
   placesElement.querySelector('.places__image').src = image;
+  const cardOpen = placesElement.querySelector('.places__image');
+  cardOpen.alt = caption;
 
   //Добавление кнопок лайка и удаления карточки
   placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
@@ -103,13 +108,12 @@ function creatCard(caption, image) {
   });
 
   //Открытие попапа с карточкой
-  const cardOpen = placesElement.querySelector('.places__image');
 
   cardOpen.addEventListener('click', function openCard() {
     openPopup(imagePopup);
-    document.querySelector('.image-popup__photolink').src = this.src;
-    document.querySelector('.image-popup__photolink').alt = caption;
-    document.querySelector('.image-popup__caption').textContent = caption;
+    popupLink.src = this.src;
+    popupLink.alt = caption;
+    popupCaption.textContent = caption;
 
   });
 
