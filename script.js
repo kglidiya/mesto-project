@@ -56,8 +56,7 @@ function formSubmitHandler(evt) {
   userProffesion.textContent = jobInput.value;
   closePopup(profilePopup);
 };
-formElementProfile.addEventListener('submit', formSubmitHandler);
-
+formElementProfile.addEventListener('submit', formSubmitHandler);gi
 
 //Клонирование template
 
