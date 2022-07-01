@@ -1,6 +1,5 @@
-import { popups, buttonEditAvatar } from './utils.js';
-export { closePopup, closePopupEsc, openPopup, showAvatarBtn, hideAvatarBtn };
-
+import {nameInput, userName, jobInput, userProffesion, profilePopup} from './utils.js';
+export {closePopup, formSubmitHandler, openPopup};
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -12,33 +11,10 @@ function closePopup(popup) {
 };
 
 
-function closePopupEsc(event) {
-
-  if (event.key === 'Escape') {
-    popups.forEach(function (popup) {
-      if (popup.classList.contains('popup_opened')) {
-        closePopup(popup);
-
-      }
-      else if (!popup.classList.contains('popup_opened')) {
-        document.removeEventListener('keydown', closePopup(popup));
-      }
-    })
-  }
-}
-
-function showAvatarBtn() {
-  buttonEditAvatar.style.visibility = 'visible';
-  buttonEditAvatar.style.opacity = '1';
-  buttonEditAvatar.style.transition = `all 1s ease`;
+function formSubmitHandler(evt) {
+  evt.preventDefault();
+  userName.textContent = nameInput.value;
+  userProffesion.textContent = jobInput.value;
+  closePopup(profilePopup);
 };
-
-function hideAvatarBtn() {
-  buttonEditAvatar.style.visibility = 'hidden';
-  buttonEditAvatar.style.opacity = '0';
-  buttonEditAvatar.style.transition = `all 1s ease`;
-};
-
-
-
 
