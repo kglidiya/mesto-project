@@ -9,21 +9,21 @@
 .form__label{position:relative}
 .form__input-error{color:red;font-size:12px;font-weight:400;left:0;line-height:14.52px;position:absolute;top:calc(50% + 5px);z-index:1}
 .form__input{border-width:0 0 1px;border-bottom:1px solid rgba(0,0,0,.2);font-family:inherit;font-size:14px;font-weight:400;height:27px;line-height:17px;margin-bottom:28px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%}.form__input:focus{border:1px solid rgba(0,0,0,.2);outline:none}.form__input::-moz-placeholder{font-family:inherit}.form__input::placeholder{color:#000;font-family:inherit;font-size:14px;line-height:17px}
+.form__input_type_error{border-bottom:1px solid red}
 .popup{align-items:center;background-color:rgba(0,0,0,.5);display:flex;height:100%;justify-content:center;left:0;opacity:0;overflow:auto;position:fixed;top:0;transition:visibility .5s,opacity .5s linear;visibility:hidden;width:100%;z-index:1}
 .popup__closebtn{background:url(039f1f5203f653b4bacd.svg) no-repeat 50%;background-color:transparent;background-size:cover;border:none;height:32px;left:103%;position:absolute;top:-10%;width:32px}.popup__closebtn:hover{opacity:.6}@media screen and (max-width:610px){.popup__closebtn{height:20px;left:95%;top:-10%;width:20px}}@media (max-width:320px){.popup__closebtn{left:93%}}
 .popup_theme_dark{background-color:rgba(0,0,0,.9)}
 .popup__content{margin-left:8%;margin-right:8%;max-width:358px;width:100%}@media (max-width:320px){.popup__content{max-width:238px;width:100%}}
-.popup__container{background:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);display:flex;justify-content:center;max-width:430px;min-height:330px;position:relative;width:100%}@media (max-width:320px){.popup__container{max-width:282px;min-height:322px}}
 .image-popup__container{max-height:75vh;max-width:75vw;position:relative}
 .image-popup__photolink{max-height:75vh;max-width:75vw}
 .image-popup__caption{color:#fff;font-size:12px;line-height:15px;margin-top:10px;padding:0}
-.popup__title{color:#000;font-size:24px;font-weight:900;line-height:29px;margin-bottom:44px;margin-top:34px}@media (max-width:320px){.popup__title{font-size:18px;line-height:22px;margin-bottom:70px;margin-top:23px}}
-.popup__container_avatar{min-height:272px}
+.popup__container{background:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);display:flex;justify-content:center;max-width:430px;min-height:330px;position:relative;width:100%}@media (max-width:320px){.popup__container{max-width:282px;min-height:322px}}
 .popup_opened{display:flex;opacity:1;transition:visibility .5s,opacity .5s linear;visibility:visible};
-.form__input_type_error{border-bottom:1px solid red}
+.popup__container_avatar{min-height:272px}
+.profile{display:flex;margin-top:40px;overflow:hidden}@media screen and (max-width:696px){.profile{align-items:center;flex-direction:column;margin-top:42px}}
 .form__savebtn{background:#000;border:none;border-radius:2px;color:#fff;font-family:inherit;font-size:18px;height:50px;line-height:22px;margin-top:15px;text-align:center;width:100%}.form__savebtn:hover{opacity:.8}@media (max-width:320px){.form__savebtn{font-size:14px;line-height:17px;margin-bottom:25px}}
 .form__savebtn_inactive{background:#fff;border:1px solid rgba(0,0,0,.2);color:rgba(0,0,0,.2)}
-.profile{display:flex;margin-top:40px;overflow:hidden}@media screen and (max-width:696px){.profile{align-items:center;flex-direction:column;margin-top:42px}}
+.popup__title{color:#000;font-size:24px;font-weight:900;line-height:29px;margin-bottom:44px;margin-top:34px}@media (max-width:320px){.popup__title{font-size:18px;line-height:22px;margin-bottom:70px;margin-top:23px}}
 .profile__title{color:#fff;font-size:42px;font-weight:500;line-height:48px;margin:0;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap}@media (max-width:320px){.profile__title{font-size:27px;line-height:33px;text-align:center}}
 .profile__title-container{display:flex;flex-direction:row;margin:0;overflow:hidden;padding-bottom:11px;padding-top:22px}@media (max-width:320px){.profile__title-container{justify-content:flex-end;max-width:231px;padding-bottom:14px;padding-top:22.25px}}
 .profile__subtitle{color:#fff;font-size:18px;line-height:22px;margin-bottom:25px;margin-top:0;max-width:336px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:696px){.profile__subtitle{margin:0 auto 25px;text-align:center}}@media (max-width:320px){.profile__subtitle{font-size:14px;line-height:17px;margin-bottom:36px;text-align:center;width:95%}}
