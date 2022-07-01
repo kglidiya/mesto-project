@@ -1,0 +1,18 @@
+.places__likebtn {
+  left: 0;
+  top: 0;
+  background: url(../../../images/like-disabled.svg) no-repeat;
+  background-size: cover;
+  border: 0;
+  margin-top: 22px;
+  margin-bottom: 3px;
+  height: 19px;
+  width: 22px;
+  position: relative;
+ 
+}
+
+.places__likebtn:hover {
+  transition: all ease-out 0.5s;
+  opacity: 0.5;
+}

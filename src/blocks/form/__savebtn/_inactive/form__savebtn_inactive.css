@@ -1,0 +1,5 @@
+.form__savebtn_inactive {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: white;
+    color: rgba(0, 0, 0, 0.2);    
+}

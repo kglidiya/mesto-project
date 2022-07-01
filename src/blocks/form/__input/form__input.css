@@ -1,0 +1,40 @@
+.form__input {
+  border-width: 0px 0px 1px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 27px;
+  margin-bottom: 28px;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  }
+
+
+.form__input:focus {
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.form__input::-webkit-input-placeholder {
+  font-family: inherit;
+}
+.form__input::-moz-placeholder {
+  font-family: inherit;
+}
+.form__input::-ms-input-placeholder {
+  font-family: inherit;
+}
+
+
+
+.form__input::placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}

@@ -1,0 +1,13 @@
+.profile__avatar-editbtn {
+    width: 26px;
+    height: 26px;
+    background: url(../../../images/avatar-editbtn.svg) center no-repeat;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    border: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+

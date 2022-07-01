@@ -1,0 +1,13 @@
+.profile__avatar-overlay {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  margin-right: 29px;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 20;
+}
+
+.profile__avatar-overlay:hover {
+  background-color: rgba(0, 0, 0, .8);
+  transition: background-color 1s ease;
+}

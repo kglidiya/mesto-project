@@ -1,0 +1,11 @@
+.form__input-error {
+    color: rgba(255, 0, 0, 1);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14.52px;
+    position: absolute;
+    top: calc(50% + 5px);
+    left: 0;
+    z-index: 1;
+    
+}
