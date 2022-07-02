@@ -1,5 +1,6 @@
 export {renderCard, creatCard};
-import {cardsTemplate, cardsContainer, popupCaption, popupLink, placeInput, linkInput, cardPopup, imagePopup} from './utils.js';
+import {cardsTemplate, cardsContainer, popupCaption, popupLink, placeInput, linkInput, cardPopup, imagePopup, 
+  disableButtonSubmit, buttonsSave} from './utils.js';
 import {closePopup, openPopup} from './modal.js';
 
 
@@ -48,22 +49,10 @@ export const initialCards = [
     });
   
     const deleteBtn = placesElement.querySelector('.places__deletebtn');
-  deleteBtn.classList.add('places__deletebtn_visible');
-
-  deleteBtn.addEventListener('click', function (btn) {
+    deleteBtn.classList.add('places__deletebtn_visible'); 
+    deleteBtn.addEventListener('click', function (btn) {
     const placeContainer = btn.target.closest('.places__container');
     placeContainer.remove();
-    return getRequest
-      .then((result) => {
-        result.forEach(function (card) {
-          if (caption === card.name) {
-            deleteCard(card._id);
-          }
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      })
   })
   
     cardOpen.addEventListener('click', function openCard() {
@@ -77,14 +66,13 @@ export const initialCards = [
     return placesElement;
   };
   
-
+  //console.log(placeInput.value)
   function renderCard(evt) {
- 
     evt.preventDefault();
+    disableButtonSubmit(buttonsSave)
     cardsContainer.prepend(creatCard(placeInput.value, linkInput.value));
     closePopup(cardPopup);
-    placeInput.value = '';
-    linkInput.value = '';
+    evt.target.reset();
   };
   
   

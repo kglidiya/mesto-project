@@ -18,7 +18,7 @@ const hideError = (formElement, inputElement, inputErrorClass, errorClass) => {
 const checkInputValidity = (formElement, inputElement, inputErrorClass, errorClass) => {
     if (!inputElement.validity.valid) {
         showError(formElement, inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
-    } else hideError(formElement, inputElement,);
+    } else hideError(formElement, inputElement, inputErrorClass, errorClass);
 }
 
 const hasInvalidInput = (inputList) => {
@@ -30,8 +30,10 @@ const hasInvalidInput = (inputList) => {
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
         buttonElement.classList.add(inactiveButtonClass);
+        buttonElement.disabled = true;
     } else {
         buttonElement.classList.remove(inactiveButtonClass);
+        buttonElement.disabled = false;
     }
 };
 

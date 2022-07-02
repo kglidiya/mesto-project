@@ -3,7 +3,7 @@ import {enableValidation} from './components/validate.js';
 import {initialCards, renderCard, creatCard} from './components/card.js';
 import {formSelectorPlace, cardsContainer, formSelectorProfile, popups, buttonsClose, buttonEdit, buttonAdd,
 nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup} from './components/utils.js';
-import {formSubmitHandler, closePopup, openPopup} from './components/modal.js';
+import {handleProfileFormSubmit, closePopup, openPopup} from './components/modal.js';
 
 enableValidation({
   formSelector: '.form',
@@ -21,17 +21,8 @@ initialCards.forEach(function (item) {
 
 formSelectorPlace.addEventListener('submit', renderCard);
 
-formSelectorProfile.addEventListener('submit', formSubmitHandler);
+formSelectorProfile.addEventListener('submit', handleProfileFormSubmit);
 
-document.addEventListener('keydown', function (event) {
-
-  if (event.key === 'Escape') {
-    popups.forEach(function (popup) {
-      if (popup.classList.contains('popup_opened'))
-        closePopup(popup);
-    })
-  }
-})
 
 buttonsClose.forEach(function (btn) {
   btn.addEventListener('click', function (event) {

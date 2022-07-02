@@ -19,3 +19,9 @@ export const cardsTemplate = document.querySelector('.places-new').content;
 export const popupLink = document.querySelector('.image-popup__photolink');
 export const popupCaption = document.querySelector('.image-popup__caption');
 
+export function disableButtonSubmit(buttons) {
+    buttons.forEach(function(btn) {
+        btn.disabled = true;
+        btn.classList.add('form__savebtn_inactive');
+    })
+}
