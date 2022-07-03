@@ -1,9 +1,16 @@
 import './styles/index.css';
 import {enableValidation} from './components/validate.js';
-import {initialCards, renderCard, creatCard} from './components/card.js';
-import {formSelectorPlace, cardsContainer, formSelectorProfile, popups, buttonsClose, buttonEdit, buttonAdd,
-nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup} from './components/utils.js';
-import {handleProfileFormSubmit, closePopup, openPopup} from './components/modal.js';
+
+import {formSelectorPlace,  formSelectorProfile, formSelectorAvatar, popups, buttonsClose, buttonEdit, buttonAdd,
+nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup, avatarPopup, handleProfileFormSubmit, 
+handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay} from './components/utils.js';
+import { closePopup, openPopup, showAvatarBtn, hideAvatarBtn} from './components/modal.js';
+import { getInitialCards, getUserInfor} from './components/api.js';
+
+
+getInitialCards();
+
+getUserInfor();
 
 enableValidation({
   formSelector: '.form',
@@ -14,21 +21,22 @@ enableValidation({
   errorClass: 'form__input-error'
 }); 
 
-initialCards.forEach(function (item) {
-  const card = creatCard(item.name, item.link);
-  cardsContainer.append(card);
-});
 
-formSelectorPlace.addEventListener('submit', renderCard);
+
+formSelectorPlace.addEventListener('submit', handleCardFormSubmit)
+
+
 
 formSelectorProfile.addEventListener('submit', handleProfileFormSubmit);
+
+formSelectorAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
 
 buttonsClose.forEach(function (btn) {
   btn.addEventListener('click', function (event) {
     closePopup(event.target.closest('.popup'))
   })
-})
+});
 
 popups.forEach(function (popup) {
   popup.addEventListener('click', function (event) {
@@ -36,12 +44,16 @@ popups.forEach(function (popup) {
       closePopup(event.target.closest('.popup'))
     }
   })
-})
+});
 
 buttonEdit.addEventListener('click', function () {
   nameInput.value = userName.textContent;
   jobInput.value = userProffesion.textContent;
   openPopup(profilePopup)
 });
+
+buttonEditAvatar.addEventListener('click', () => openPopup(avatarPopup));
+avatarOverlay.addEventListener('mouseover', showAvatarBtn);
+avatarOverlay.addEventListener('mouseout', hideAvatarBtn);
 
 buttonAdd.addEventListener('click', () => openPopup(cardPopup));
