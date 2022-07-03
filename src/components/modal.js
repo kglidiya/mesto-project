@@ -1,5 +1,6 @@
-import {nameInput, userName, jobInput, userProffesion, profilePopup} from './utils.js';
-export {closePopup, handleProfileFormSubmit, openPopup};
+import { buttonEditAvatar } from './utils.js';
+
+export {closePopup, openPopup, showAvatarBtn, hideAvatarBtn};
 
 function closeByEscape(evt) {
   if (evt.key === 'Escape') {
@@ -20,12 +21,20 @@ function closePopup(popup) {
 };
 
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  userName.textContent = nameInput.value;
-  userProffesion.textContent = jobInput.value;
-  closePopup(profilePopup);
+function showAvatarBtn() {
+  buttonEditAvatar.style.visibility = 'visible';
+  buttonEditAvatar.style.opacity = '1';
+  buttonEditAvatar.style.transition = `all 1s ease`;
 };
+
+function hideAvatarBtn() {
+  buttonEditAvatar.style.visibility = 'hidden';
+  buttonEditAvatar.style.opacity = '0';
+  buttonEditAvatar.style.transition = `all 1s ease`;
+};
+
+
+
 
 
  
