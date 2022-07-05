@@ -1,38 +1,28 @@
 import './styles/index.css';
 import {enableValidation} from './components/validate.js';
-import {creatCard, creatMyCard} from './components/card.js';
+import {creatCard} from './components/card.js';
 import {formSelectorPlace,  formSelectorProfile, formSelectorAvatar, popups, buttonsClose, buttonEdit, buttonAdd,
 nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup, avatarPopup, handleProfileFormSubmit, 
 handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay, avatarImage, cardsContainer} from './components/utils.js';
 import {closePopup, openPopup, showAvatarBtn, hideAvatarBtn} from './components/modal.js';
 import {api} from './components/api.js';
 
-
-api.getInitialCards()
+Promise.all([api.getInitialCards(), api.getUserInfor()])
 .then((result) => {
-  result.forEach(function (card) {
-    if (card.owner._id !== "72af520b988a7099c9eb20ae") {
-      cardsContainer.append(creatCard(card.name, card.link, (card.likes).length))
-    } 
-    else if (card.owner._id === "72af520b988a7099c9eb20ae") {
-      cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length))
-    }
+
+  result[0].forEach(function (card) {
+    let likeOwner;
+    card.likes.forEach(function(like){
+      likeOwner = like.name;
+    })
+    cardsContainer.append(creatCard(card.name, card.link, (card.likes).length, card.owner._id, card._id, likeOwner, result[1].name));
   })
+  userName.textContent = result[1].name;
+  userProffesion.textContent = result[1].about;
+  avatarImage.style.backgroundImage = `URL(${result[1].avatar})`;
+ 
 })
-.catch((err) => {
-  console.log(err);
-});
 
-
-api.getUserInfor()
-.then((result) => {
-  userName.textContent = result.name;
-  userProffesion.textContent = result.about;
-  avatarImage.style.backgroundImage = `URL(${result.avatar})`;
-})
-.catch((err) => {
-  console.log(err);
-});
 
 enableValidation({
   formSelector: '.form',
