@@ -1,8 +1,6 @@
-import {linkInput, nameInput, jobInput, placeInput, cardsContainer, userName, userProffesion,
-  avatarImage, avatarInput, renderLoading} from './utils.js';
-import { creatCard, creatMyCard} from './card.js';
+export {api}
 
-export const config = {
+const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-12',
   headers: {
     authorization: '8f6d1960-4165-4690-8fd7-af73d50cc61b',
@@ -10,106 +8,65 @@ export const config = {
   }
 }
 
-//Get-request 
-export const getRequest = fetch(`${config.baseUrl}/cards`, {
-  headers: {
-    authorization: '8f6d1960-4165-4690-8fd7-af73d50cc61b',
-    'Content-Type': 'application/json'
-  }
-})
-  .then(res => {
+//Get response status
+
+const checkResponse = (res) => {
     if (res.ok) {
       return res.json();
     }
     return Promise.reject(res.status);
-  })
-
+  
+}
 
 //Fetch  all cards
 
-export const getInitialCards = () => {
-  return getRequest
-    .then((result) => {
-      result.forEach(function (card) {
-        if (card.owner._id !== "72af520b988a7099c9eb20ae") {
-          cardsContainer.append(creatCard(card.name, card.link, (card.likes).length))
-        } 
-        else if (card.owner._id === "72af520b988a7099c9eb20ae") {
-          cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length))
-        }
-      })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-}
+const getInitialCards = () => {
+  return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers
+  })
+  .then (res => {
+    return checkResponse(res)
+  }) 
+} 
+
+
 
 
 //Upload new card
 
-export const uploadNewCard = () => {
-  const placeName = placeInput.value;
-  const linkName = linkInput.value;
-
+const uploadNewCard = (placeName, linkName) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
-    headers: {
-      authorization: '8f6d1960-4165-4690-8fd7-af73d50cc61b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify({
       name: placeName,
       link: linkName
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .then((card) => {
-      return cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length));
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      window.location.reload()
-    })
-}
+  .then (res => {
+    return checkResponse(res)
+  }) 
+  }
+   
+
 
 
 //Upload use info
 
-export const getUserInfor = () => {
+const getUserInfor = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .then((result) => {
-      userName.textContent = result.name;
-      userProffesion.textContent = result.about;
-      avatarImage.style.backgroundImage = `URL(${result.avatar})`;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  .then (res => {
+    return checkResponse(res)
+  }) 
    
 }
 
 
 //Edit user info
 
-export const editUserInfo = () => {
-  const userName = nameInput.value;
-  const userAbout = jobInput.value;
-
+const editUserInfo = (userName, userAbout) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -118,97 +75,58 @@ export const editUserInfo = () => {
       about: userAbout,
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false)
-    }); 
+  .then (res => {
+    return checkResponse(res)
+  }) 
+   
 }
 
 
 //Delete card 
 
-export const deleteCard = (card) => {
+const deleteCard = (card) => {
 
   return fetch(`${config.baseUrl}/cards/${card}`, {
     method: 'DELETE',
     headers: config.headers,
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  .then (res => {
+    return checkResponse(res)
+  }) 
+
 }
 
 
 
 //Put like
 
-export const putLike = (card, likes) => {
+const putLike = (card) => {
   return fetch(`${config.baseUrl}/cards/likes/${card}`, {
     method: 'PUT',
-    headers: {
-      authorization: '8f6d1960-4165-4690-8fd7-af73d50cc61b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .then((result) => {
-    return likes.textContent = (result.likes).length;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  .then (res => {
+    return checkResponse(res)
+  }) 
+  
 }
 
 
 // Delete like
-export const deleteLike = (card, likes) => {
+const deleteLike = (card) => {
   return fetch(`${config.baseUrl}/cards/likes/${card}`, {
     method: 'DELETE',
-    headers: {
-      authorization: '8f6d1960-4165-4690-8fd7-af73d50cc61b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .then((result) => {
-      return likes.textContent = (result.likes).length;
+  .then (res => {
+    return checkResponse(res)
+  }) 
    
-    })
-    .catch((err) => {
-      console.log(err);
-    })
 }
 
 
 //Update avatar 
-export const editAvatar = () => {
-
-  const userAvatar = avatarInput.value;
-
+const editAvatar = (userAvatar) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
@@ -217,13 +135,20 @@ export const editAvatar = () => {
       avatar: userAvatar
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(res.status);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  .then (res => {
+    return checkResponse(res)
+  }) 
+   
 }
+
+const api = {
+  getInitialCards,
+  uploadNewCard,
+  getUserInfor,
+  editUserInfo,
+  deleteCard,
+  putLike,
+  deleteLike,
+  editAvatar
+}
+

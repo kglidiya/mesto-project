@@ -1,4 +1,4 @@
-import { buttonEditAvatar } from './utils.js';
+import { buttonEditAvatar, disableButtonSubmit, buttonsSave} from './utils.js';
 
 export {closePopup, openPopup, showAvatarBtn, hideAvatarBtn};
 
@@ -11,6 +11,7 @@ function closeByEscape(evt) {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  disableButtonSubmit(buttonsSave);
   document.addEventListener('keydown', closeByEscape);
 };
 

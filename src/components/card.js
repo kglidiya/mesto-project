@@ -1,8 +1,7 @@
 export { creatCard, creatMyCard };
-import {
-  cardsTemplate, popupCaption, popupLink, imagePopup, userName} from './utils.js';
+import { cardsTemplate, popupCaption, popupLink, imagePopup, userName} from './utils.js';
 import { openPopup } from './modal.js';
-import { getRequest, deleteCard, putLike, deleteLike} from './api.js';
+import {api} from './api.js';
 
 
 //Creat other users' cards
@@ -19,7 +18,7 @@ function creatCard(caption, image, likes) {
 
   //Show previously liked cards
   const updateBtns = (buttonElements) => {
-    getRequest
+    api.getInitialCards()
       .then((result) => {
         return result.filter(function (card) {
           let likes = card.likes
@@ -40,17 +39,23 @@ function creatCard(caption, image, likes) {
   }
 
   updateBtns(likeBtns);
-
+ 
   //Like/dislike functions
   let count = 0;
   placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
     count++
     if (count % 2 !== 0) {
-      getRequest
+      api.getInitialCards()
         .then((result) => {
           result.forEach(function (card) {
             if (caption === card.name) {
-              putLike(card._id, like);
+              api.putLike(card._id)
+              .then((result) => {
+                return like.textContent = (result.likes).length;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
               btn.target.classList.add('places__likebtn_active');
             }
           })
@@ -61,11 +66,18 @@ function creatCard(caption, image, likes) {
     }
 
     else if (count % 2 === 0) {
-      getRequest
+      api.getInitialCards()
         .then((result) => {
           result.forEach(function (card) {
             if (caption === card.name) {
-              deleteLike(card._id, like);
+              api.deleteLike(card._id)
+              .then((result) => {
+                return like.textContent = (result.likes).length;
+             
+              })
+              .catch((err) => {
+                console.log(err);
+              });
               btn.target.classList.remove('places__likebtn_active');
             }
           })
@@ -75,6 +87,8 @@ function creatCard(caption, image, likes) {
         })
     }
   });
+
+  //Open popup with image
 
   cardOpen.addEventListener('click', function openCard() {
     openPopup(imagePopup);
@@ -103,7 +117,7 @@ function creatMyCard(caption, image, likes) {
 
   //Show previously liked cards
   const updateBtns = (buttonElements) => {
-    getRequest
+    api.getInitialCards()
       .then((result) => {
         return result.filter(function (card) {
           let likes = card.likes
@@ -127,18 +141,24 @@ function creatMyCard(caption, image, likes) {
 
   updateBtns(likeBtns)
 
-  //Like cards
+  //Like/dislike function
 
   let count = 0;
   placesElement.querySelector('.places__likebtn').addEventListener('click', function (btn) {
 
     count++
     if (count % 2 !== 0) {
-      getRequest
+      api.getInitialCards()
         .then((result) => {
           result.forEach(function (card) {
             if (caption === card.name) {
-              putLike(card._id, like);
+              api.putLike(card._id)
+              .then((result) => {
+                return like.textContent = (result.likes).length;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
               btn.target.classList.add('places__likebtn_active');
             }
           })
@@ -149,11 +169,17 @@ function creatMyCard(caption, image, likes) {
     }
 
     else if (count % 2 === 0) {
-      getRequest
+      api.getInitialCards()
         .then((result) => {
           result.forEach(function (card) {
             if (caption === card.name) {
-              deleteLike(card._id, like);
+              api.deleteLike(card._id)
+              .then((result) => {
+                return like.textContent = (result.likes).length;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
               btn.target.classList.remove('places__likebtn_active');
             }
           })
@@ -170,12 +196,15 @@ function creatMyCard(caption, image, likes) {
 
   deleteBtn.addEventListener('click', function (evt) {
     const placeContainer = evt.target.closest('.places__container');
-    return getRequest
+    placeContainer.remove();
+    api.getInitialCards()
       .then((result) => {
         result.forEach(function (card) {
           if (caption === card.name) {
-            deleteCard(card._id);
-            placeContainer.remove();
+              api.deleteCard(card._id)
+              .catch((err) => {
+                console.log(err);
+              });
           }
         })
       })
