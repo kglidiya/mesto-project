@@ -51,8 +51,7 @@ export function renderLoading(buttonElement, isLoading) {
 
 
 export function handleCardFormSubmit(evt) {
-  let buttonElement = evt.target.childNodes[5];
-  renderLoading(buttonElement, true);
+  renderLoading(evt.target.childNodes[5], true);
   api.uploadNewCard(placeInput.value, linkInput.value)
     .then((card) => {
       return cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length));
@@ -61,21 +60,20 @@ export function handleCardFormSubmit(evt) {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(buttonElement, false)
+      renderLoading(evt.target.childNodes[5], false)
     });
   closePopup(cardPopup);
   evt.target.reset();
 };
 
 export function handleProfileFormSubmit(evt) {
-  let buttonElement = evt.target.childNodes[5]
-  renderLoading(buttonElement, true);
+  renderLoading(evt.target.childNodes[5], true);
   api.editUserInfo(nameInput.value, jobInput.value)
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(buttonElement, false)
+      renderLoading(evt.target.childNodes[5], false)
     });
   userName.textContent = nameInput.value;
   userProffesion.textContent = jobInput.value;
@@ -83,8 +81,7 @@ export function handleProfileFormSubmit(evt) {
 };
 
 export function handleAvatarFormSubmit(evt) {
-  let buttonElement = evt.target.childNodes[3];
-  renderLoading(buttonElement, true);
+  renderLoading(evt.target.childNodes[3], true);
   api.editAvatar(avatarInput.value)
     .then((user) => {
       return avatarImage.style.backgroundImage = `URL(${user.avatar})`;
@@ -93,7 +90,7 @@ export function handleAvatarFormSubmit(evt) {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(buttonElement, false)
+      renderLoading(evt.target.childNodes[3], false)
     });
   closePopup(avatarPopup);
   evt.target.reset()
