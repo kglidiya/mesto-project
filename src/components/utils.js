@@ -37,21 +37,8 @@ export const likesBtn = document.querySelector('.places__likebtn');
 export const like = document.querySelector('.places__likes');
 
 
-export function renderLoading(buttonElement, isLoading) {
-  if (isLoading) {
-    buttonElement.textContent = 'Сохранение...'
-  }
-  else if (!isLoading) {
-    if (buttonElement.closest('.popup').classList.contains('card-popup')) {
-      buttonElement.textContent = 'Создать'
-    }
-    else buttonElement.textContent = 'Сохранить'
-  }
-};
-
-
 export function handleCardFormSubmit(evt) {
-  renderLoading(evt.target.childNodes[5], true);
+  renderLoading(true);
   api.uploadNewCard(placeInput.value, linkInput.value)
     .then((card) => {
       return cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length));
@@ -60,20 +47,20 @@ export function handleCardFormSubmit(evt) {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(evt.target.childNodes[5], false)
+      renderLoading(false)
     });
   closePopup(cardPopup);
   evt.target.reset();
 };
 
-export function handleProfileFormSubmit(evt) {
-  renderLoading(evt.target.childNodes[5], true);
+export function handleProfileFormSubmit() {
+  renderLoading(true);
   api.editUserInfo(nameInput.value, jobInput.value)
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(evt.target.childNodes[5], false)
+      renderLoading(false)
     });
   userName.textContent = nameInput.value;
   userProffesion.textContent = jobInput.value;
@@ -81,7 +68,7 @@ export function handleProfileFormSubmit(evt) {
 };
 
 export function handleAvatarFormSubmit(evt) {
-  renderLoading(evt.target.childNodes[3], true);
+  renderLoading( true);
   api.editAvatar(avatarInput.value)
     .then((user) => {
       return avatarImage.style.backgroundImage = `URL(${user.avatar})`;
@@ -90,7 +77,7 @@ export function handleAvatarFormSubmit(evt) {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(evt.target.childNodes[3], false)
+      renderLoading(false)
     });
   closePopup(avatarPopup);
   evt.target.reset()
@@ -113,3 +100,16 @@ export function disableButtonSubmit(buttons) {
   })
 }
 
+
+function renderLoading(isLoading) {
+  buttonsSave.forEach(function(btn) {
+    if(!isLoading) {
+      if (btn.closest('.popup').classList.contains('card-popup')) {
+        btn.textContent = 'Создать';
+      } else btn.textContent = 'Сохранить';
+    }
+    if (isLoading) {
+      btn.textContent = 'Сохранение...';
+    }
+  })
+}
