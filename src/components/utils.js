@@ -1,7 +1,7 @@
 import { closePopup } from './modal.js';
 import { api } from './api.js';
-import { creatMyCard } from './card.js';
-
+import { creatCard } from './card.js';
+export const userId = '72af520b988a7099c9eb20ae';
 export const popups = document.querySelectorAll('.popup');
 export const imagePopup = document.querySelector('.image-popup');
 export const profilePopup = document.querySelector('.profile-popup');
@@ -41,7 +41,10 @@ export function handleCardFormSubmit(evt) {
   renderLoading(true);
   api.uploadNewCard(placeInput.value, linkInput.value)
     .then((card) => {
-      return cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length));
+      cardsContainer.prepend(creatCard(card.name, card.link, (card.likes).length, 
+      card.owner._id, card._id, card.likes.name, card.owner.name));
+      closePopup();
+      evt.target.reset();
     })
     .catch((err) => {
       console.log(err);
@@ -49,29 +52,32 @@ export function handleCardFormSubmit(evt) {
     .finally(() => {
       renderLoading(false)
     });
-  closePopup(cardPopup);
-  evt.target.reset();
 };
 
 export function handleProfileFormSubmit() {
   renderLoading(true);
   api.editUserInfo(nameInput.value, jobInput.value)
+  .then((result) => {
+    userName.textContent = result.name;
+    userProffesion.textContent = result.about;
+    closePopup();
+  })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       renderLoading(false)
     });
-  userName.textContent = nameInput.value;
-  userProffesion.textContent = jobInput.value;
-  closePopup(profilePopup);
+ 
 };
 
 export function handleAvatarFormSubmit(evt) {
   renderLoading( true);
   api.editAvatar(avatarInput.value)
     .then((user) => {
-      return avatarImage.style.backgroundImage = `URL(${user.avatar})`;
+      avatarImage.style.backgroundImage = `URL(${user.avatar})`;
+      closePopup();
+      evt.target.reset();
     })
     .catch((err) => {
       console.log(err);
@@ -79,8 +85,6 @@ export function handleAvatarFormSubmit(evt) {
     .finally(() => {
       renderLoading(false)
     });
-  closePopup(avatarPopup);
-  evt.target.reset()
 };
 
 
@@ -88,18 +92,10 @@ avatarContainer.style.minHeight = '272px';
 deleteContainer.style.minHeight = '181px';
 
 
-export function disableButtonSubmit(buttons) {
-  buttons.forEach(function (btn) {
-    if (btn.closest('.popup').classList.contains('profile-popup')) {
-      btn.disabled = false;
-      btn.classList.remove('form__savebtn_inactive');
-    } else if (!btn.closest('.popup').classList.contains('profile-popup')) {
-      btn.disabled = true;
-      btn.classList.add('form__savebtn_inactive');
-    }
-  })
+export function disableButtonSubmit(button) {
+  button.disabled = true;
+  button.classList.add('form__savebtn_inactive');
 }
-
 
 function renderLoading(isLoading) {
   buttonsSave.forEach(function(btn) {
