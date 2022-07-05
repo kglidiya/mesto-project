@@ -1,5 +1,6 @@
-import {closePopup} from './modal.js';
-import {editUserInfo, editAvatar, uploadNewCard} from './api.js';
+import { closePopup } from './modal.js';
+import { api } from './api.js';
+import { creatMyCard } from './card.js';
 
 export const popups = document.querySelectorAll('.popup');
 export const imagePopup = document.querySelector('.image-popup');
@@ -36,35 +37,64 @@ export const likesBtn = document.querySelector('.places__likebtn');
 export const like = document.querySelector('.places__likes');
 
 
-export function renderLoading(isLoading) {
-    if(isLoading) {
-      buttonsSave[0].textContent = 'Сохранение...'
+export function renderLoading(buttonElement, isLoading) {
+  if (isLoading) {
+    buttonElement.textContent = 'Сохранение...'
+  }
+  else if (!isLoading) {
+    if (buttonElement.closest('.popup').classList.contains('card-popup')) {
+      buttonElement.textContent = 'Создать'
     }
-    else if (!isLoading) {
-      buttonsSave[0].textContent = 'Сохранить'
-    }
-  };
+    else buttonElement.textContent = 'Сохранить'
+  }
+};
 
 
 export function handleCardFormSubmit(evt) {
-  disableButtonSubmit(buttonsSave);
-  uploadNewCard();
+  let buttonElement = evt.target.childNodes[5];
+  renderLoading(buttonElement, true);
+  api.uploadNewCard(placeInput.value, linkInput.value)
+    .then((card) => {
+      return cardsContainer.prepend(creatMyCard(card.name, card.link, (card.likes).length));
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(buttonElement, false)
+    });
   closePopup(cardPopup);
   evt.target.reset();
 };
 
-export function handleProfileFormSubmit() {
-    renderLoading(true);
-    editUserInfo();
-    userName.textContent = nameInput.value;
-    userProffesion.textContent = jobInput.value;
-    closePopup(profilePopup);
+export function handleProfileFormSubmit(evt) {
+  let buttonElement = evt.target.childNodes[5]
+  renderLoading(buttonElement, true);
+  api.editUserInfo(nameInput.value, jobInput.value)
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(buttonElement, false)
+    });
+  userName.textContent = nameInput.value;
+  userProffesion.textContent = jobInput.value;
+  closePopup(profilePopup);
 };
 
 export function handleAvatarFormSubmit(evt) {
-  disableButtonSubmit(buttonsSave)
-  editAvatar();
-  avatarImage.style.backgroundImage = `URL(${avatarInput.value})`;
+  let buttonElement = evt.target.childNodes[3];
+  renderLoading(buttonElement, true);
+  api.editAvatar(avatarInput.value)
+    .then((user) => {
+      return avatarImage.style.backgroundImage = `URL(${user.avatar})`;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(buttonElement, false)
+    });
   closePopup(avatarPopup);
   evt.target.reset()
 };
@@ -75,11 +105,14 @@ deleteContainer.style.minHeight = '181px';
 
 
 export function disableButtonSubmit(buttons) {
-    buttons.forEach(function(btn) {
-      if(btn.classList.contains('button__delete')) {
-        return false;
-        } else 
-        btn.disabled = true;
-        btn.classList.add('form__savebtn_inactive');
-    })
+  buttons.forEach(function (btn) {
+    if (btn.closest('.popup').classList.contains('profile-popup')) {
+      btn.disabled = false;
+      btn.classList.remove('form__savebtn_inactive');
+    } else if (!btn.closest('.popup').classList.contains('profile-popup')) {
+      btn.disabled = true;
+      btn.classList.add('form__savebtn_inactive');
+    }
+  })
 }
+
