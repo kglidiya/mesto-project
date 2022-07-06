@@ -23,6 +23,7 @@
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/form/__savebtn/form__savebtn.css);
 @import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__title/_delete/popup__title_delete.css);
 @import url(../blocks/profile/__title/profile__title.css);
 @import url(../blocks/profile/__title-container/profile__title-container.css);
 @import url(../blocks/profile/__subtitle/profile__subtitle.css);

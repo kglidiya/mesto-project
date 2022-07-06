@@ -1,9 +1,10 @@
 import './styles/index.css';
 import {enableValidation} from './components/validate.js';
-import {creatCard} from './components/card.js';
+import {creatCard, cardToDelete, containerToDelete} from './components/card.js';
 import {formSelectorPlace,  formSelectorProfile, formSelectorAvatar, popups, buttonEdit, buttonAdd,
 nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup, avatarPopup, handleProfileFormSubmit, 
-handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay, avatarImage, cardsContainer, disableButtonSubmit} from './components/utils.js';
+handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay, avatarImage, cardsContainer, 
+buttonDeleteCard} from './components/utils.js';
 import {closePopup, openPopup, showAvatarBtn, hideAvatarBtn} from './components/modal.js';
 import {api} from './components/api.js';
 export let userId;
@@ -14,6 +15,7 @@ Promise.all([api.getInitialCards(), api.getUserInfor()])
   return [userData, cards]
   })
   .then(([userData, cards]) => {
+  
     userId = userData._id;
     cards.forEach(function (card) {
       let likeOwner;
@@ -75,4 +77,18 @@ avatarOverlay.addEventListener('mouseout', hideAvatarBtn);
 
 buttonAdd.addEventListener('click', function() {
   openPopup(cardPopup)
+})
+
+
+buttonDeleteCard.addEventListener('click', function() {
+
+  api.deleteCard(cardToDelete)
+    .then(() => {
+      containerToDelete.remove();
+      closePopup()
+    })  
+    .catch((err) => {
+      console.log(err);
+    });
+  
 })
