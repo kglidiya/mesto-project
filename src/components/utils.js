@@ -1,7 +1,8 @@
 import { closePopup } from './modal.js';
 import { api } from './api.js';
 import { creatCard } from './card.js';
-export const userId = '72af520b988a7099c9eb20ae';
+import { userId } from './../index.js';
+
 export const popups = document.querySelectorAll('.popup');
 export const imagePopup = document.querySelector('.image-popup');
 export const profilePopup = document.querySelector('.profile-popup');
@@ -9,12 +10,9 @@ export const cardPopup = document.querySelector('.card-popup');
 export const avatarPopup = document.querySelector('.avatar-popup');
 export const deletePopup = document.querySelector('.delete-popup');
 export const buttonEdit = document.querySelector('.profile__editbtn');
-export const buttonsSave = document.querySelectorAll('.form__savebtn');
 export const buttonDeleteCard = document.querySelector('.button__delete');
-export const buttonsClose = document.querySelectorAll('.popup__closebtn');
 export const buttonAdd = document.querySelector('.profile__addbtn');
 export const buttonEditAvatar = document.querySelector('.profile__avatar-editbtn');
-export const buttonsDelete = document.querySelectorAll('.places__deletebtn')
 export const formSelectorProfile = document.querySelector('.edit-profile');
 export const formSelectorPlace = document.querySelector('.edit-place');
 export const formSelectorAvatar = document.querySelector('.edit-avatar');
@@ -38,52 +36,62 @@ export const like = document.querySelector('.places__likes');
 
 
 export function handleCardFormSubmit(evt) {
-  renderLoading(true);
+  const popupOpened = document.querySelector('.popup_opened');
+  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
+  renderLoading(true, buttonSubmit);
   api.uploadNewCard(placeInput.value, linkInput.value)
     .then((card) => {
-      cardsContainer.prepend(creatCard(card.name, card.link, (card.likes).length, 
-      card.owner._id, card._id, card.likes.name, card.owner.name));
+      cardsContainer.prepend(creatCard(card.name, card.link, (card.likes).length,
+        card.owner._id, card._id, card.likes.name, card.owner.name, userId));
       closePopup();
       evt.target.reset();
+      const buttonSubmit = cardPopup.querySelector('.form__savebtn');
+      disableButtonSubmit(buttonSubmit);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false)
+      renderLoading(false, buttonSubmit, buttonSubmit.textContent = "Создать");
     });
 };
 
 export function handleProfileFormSubmit() {
-  renderLoading(true);
+  const popupOpened = document.querySelector('.popup_opened');
+  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
+  renderLoading(true, buttonSubmit);
   api.editUserInfo(nameInput.value, jobInput.value)
-  .then((result) => {
-    userName.textContent = result.name;
-    userProffesion.textContent = result.about;
-    closePopup();
-  })
+    .then((result) => {
+      userName.textContent = result.name;
+      userProffesion.textContent = result.about;
+      closePopup();
+    })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false)
+      renderLoading(false, buttonSubmit);
     });
- 
+
 };
 
 export function handleAvatarFormSubmit(evt) {
-  renderLoading( true);
+  const popupOpened = document.querySelector('.popup_opened');
+  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
+  renderLoading(true, buttonSubmit);
   api.editAvatar(avatarInput.value)
     .then((user) => {
       avatarImage.style.backgroundImage = `URL(${user.avatar})`;
       closePopup();
       evt.target.reset();
+      const buttonSubmit = avatarPopup.querySelector('.form__savebtn');
+      disableButtonSubmit(buttonSubmit);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false)
+      renderLoading(false, buttonSubmit);
     });
 };
 
@@ -91,21 +99,17 @@ export function handleAvatarFormSubmit(evt) {
 avatarContainer.style.minHeight = '272px';
 deleteContainer.style.minHeight = '181px';
 
+function renderLoading(isLoading, button, buttonText = "Сохранить") {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+  } else {
+    button.textContent = buttonText;
+  }
+}
+
+
 
 export function disableButtonSubmit(button) {
   button.disabled = true;
   button.classList.add('form__savebtn_inactive');
-}
-
-function renderLoading(isLoading) {
-  buttonsSave.forEach(function(btn) {
-    if(!isLoading) {
-      if (btn.closest('.popup').classList.contains('card-popup')) {
-        btn.textContent = 'Создать';
-      } else btn.textContent = 'Сохранить';
-    }
-    if (isLoading) {
-      btn.textContent = 'Сохранение...';
-    }
-  })
 }
