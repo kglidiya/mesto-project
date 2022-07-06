@@ -1,4 +1,4 @@
-import { buttonEditAvatar, disableButtonSubmit} from './utils.js';
+import { buttonEditAvatar} from './utils.js';
 
 export {closePopup, openPopup, showAvatarBtn, hideAvatarBtn};
 
@@ -11,10 +11,6 @@ function closeByEscape(evt) {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  const buttonSubmit = popup.querySelector('.form__savebtn');
-  if(popup.classList.contains('card-popup') || popup.classList.contains('avatar-popup')) {
-    disableButtonSubmit(buttonSubmit);
-  }
   document.addEventListener('keydown', closeByEscape);
 };
 
@@ -24,7 +20,6 @@ function closePopup() {
   openedPopup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closeByEscape);
 };
-
 
 function showAvatarBtn() {
   buttonEditAvatar.style.visibility = 'visible';

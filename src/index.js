@@ -1,27 +1,35 @@
 import './styles/index.css';
 import {enableValidation} from './components/validate.js';
 import {creatCard} from './components/card.js';
-import {formSelectorPlace,  formSelectorProfile, formSelectorAvatar, popups, buttonsClose, buttonEdit, buttonAdd,
+import {formSelectorPlace,  formSelectorProfile, formSelectorAvatar, popups, buttonEdit, buttonAdd,
 nameInput, userName, jobInput, userProffesion, profilePopup, cardPopup, avatarPopup, handleProfileFormSubmit, 
-handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay, avatarImage, cardsContainer} from './components/utils.js';
+handleAvatarFormSubmit, handleCardFormSubmit, buttonEditAvatar, avatarOverlay, avatarImage, cardsContainer, disableButtonSubmit} from './components/utils.js';
 import {closePopup, openPopup, showAvatarBtn, hideAvatarBtn} from './components/modal.js';
 import {api} from './components/api.js';
+export let userId;
 
 Promise.all([api.getInitialCards(), api.getUserInfor()])
-.then((result) => {
-
-  result[0].forEach(function (card) {
-    let likeOwner;
-    card.likes.forEach(function(like){
-      likeOwner = like.name;
-    })
-    cardsContainer.append(creatCard(card.name, card.link, (card.likes).length, card.owner._id, card._id, likeOwner, result[1].name));
+  .then((result) => {
+  const [userData, cards] = [result[1], result[0]];
+  return [userData, cards]
   })
-  userName.textContent = result[1].name;
-  userProffesion.textContent = result[1].about;
-  avatarImage.style.backgroundImage = `URL(${result[1].avatar})`;
- 
-})
+  .then(([userData, cards]) => {
+    userId = userData._id;
+    cards.forEach(function (card) {
+      let likeOwner;
+      card.likes.forEach(function(like){
+        likeOwner = like.name;
+      })
+      cardsContainer.append(creatCard(card.name, card.link, (card.likes).length, card.owner._id, 
+      card._id, likeOwner, userData.name, userId));
+    })
+   avatarImage.style.backgroundImage = `URL(${userData.avatar})`;
+   userName.textContent = userData.name;
+   userProffesion.textContent = userData.about;
+  })
+  .catch(err => {
+    console.log(err)
+  });
 
 
 enableValidation({
@@ -41,19 +49,16 @@ formSelectorProfile.addEventListener('submit', handleProfileFormSubmit);
 formSelectorAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
 
-buttonsClose.forEach(function (btn) {
-  btn.addEventListener('click', function (event) {
-    closePopup(event.target.closest('.popup'))
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+          closePopup(popup)
+      }
+      if (evt.target.classList.contains('popup__closebtn')) {
+        closePopup(popup)
+      }
   })
-});
-
-popups.forEach(function (popup) {
-  popup.addEventListener('click', function (event) {
-    if (event.target.classList.contains('popup')) {
-      closePopup(event.target.closest('.popup'))
-    }
-  })
-});
+})
 
 buttonEdit.addEventListener('click', function () {
   nameInput.value = userName.textContent;
@@ -61,8 +66,13 @@ buttonEdit.addEventListener('click', function () {
   openPopup(profilePopup)
 });
 
-buttonEditAvatar.addEventListener('click', () => openPopup(avatarPopup));
+buttonEditAvatar.addEventListener('click', function() {
+  openPopup(avatarPopup)
+});
+
 avatarOverlay.addEventListener('mouseover', showAvatarBtn);
 avatarOverlay.addEventListener('mouseout', hideAvatarBtn);
 
-buttonAdd.addEventListener('click', () => openPopup(cardPopup));
+buttonAdd.addEventListener('click', function() {
+  openPopup(cardPopup)
+})
