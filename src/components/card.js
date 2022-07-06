@@ -1,8 +1,9 @@
-export { creatCard };
-import { cardsTemplate, popupCaption, popupLink, imagePopup} from './utils.js';
+export { creatCard, cardToDelete, containerToDelete };
+import { cardsTemplate, popupCaption, popupLink, imagePopup, deletePopup} from './utils.js';
 import { openPopup } from './modal.js';
 import { api } from './api.js';
-
+let cardToDelete;
+let containerToDelete;
 
 //Creat cards
 
@@ -16,7 +17,7 @@ function creatCard(caption, image, likesNumber, usersIdAll, cardId, likeOwner, u
   like.textContent = likesNumber;
   const likeButton = placesElement.querySelector('.places__likebtn');
   const deleteBtn = placesElement.querySelector('.places__deletebtn');
-  const placeContainer = deleteBtn.closest('.places__container');
+
 
 
   //Show previously liked cards
@@ -25,17 +26,16 @@ function creatCard(caption, image, likesNumber, usersIdAll, cardId, likeOwner, u
   } else likeButton.classList.remove('places__likebtn_active');
  
   //Delete card
+
+
   if (usersIdAll === userId) {
     deleteBtn.classList.add('places__deletebtn_visible');
   }
-  deleteBtn.addEventListener('click', function () {
-    api.deleteCard(cardId)
-    .then(() => {
-      placeContainer.remove();
-    })  
-    .catch((err) => {
-      console.log(err);
-    });
+
+  deleteBtn.addEventListener('click', function (evt) {
+    cardToDelete = cardId;
+    containerToDelete = evt.target.closest('article');
+    openPopup(deletePopup);
   })
 
 
@@ -75,3 +75,4 @@ function creatCard(caption, image, likesNumber, usersIdAll, cardId, likeOwner, u
 
   return placesElement;
 };
+
