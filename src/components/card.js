@@ -27,7 +27,6 @@ function creatCard(caption, image, likesNumber, usersIdAll, cardId, likeOwner, u
  
   //Delete card
 
-
   if (usersIdAll === userId) {
     deleteBtn.classList.add('places__deletebtn_visible');
   }
