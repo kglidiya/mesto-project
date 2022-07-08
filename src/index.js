@@ -10,12 +10,7 @@ import {api} from './components/api.js';
 export let userId;
 
 Promise.all([api.getInitialCards(), api.getUserInfor()])
-  .then((result) => {
-  const [userData, cards] = [result[1], result[0]];
-  return [userData, cards]
-  })
-  .then(([userData, cards]) => {
-  
+  .then(([cards, userData]) => {
     userId = userData._id;
     cards.forEach(function (card) {
       let likeOwner;

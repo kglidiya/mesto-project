@@ -31,67 +31,58 @@ export const cardsContainer = document.querySelector('.places');
 export const cardsTemplate = document.querySelector('.places-new').content;
 export const popupLink = document.querySelector('.image-popup__photolink');
 export const popupCaption = document.querySelector('.image-popup__caption');
-export const likesBtn = document.querySelector('.places__likebtn');
-export const like = document.querySelector('.places__likes');
 
 
 export function handleCardFormSubmit(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
-  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
-  renderLoading(true, buttonSubmit);
+  renderLoading(true, evt.submitter);
   api.uploadNewCard(placeInput.value, linkInput.value)
     .then((card) => {
       cardsContainer.prepend(creatCard(card.name, card.link, (card.likes).length,
         card.owner._id, card._id, card.likes.name, card.owner.name, userId));
       closePopup();
       evt.target.reset();
-      const buttonSubmit = cardPopup.querySelector('.form__savebtn');
-      disableButtonSubmit(buttonSubmit);
+      disableButtonSubmit(evt.submitter);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, buttonSubmit, buttonSubmit.textContent = "Создать");
+      renderLoading(false, evt.submitter, "Создать");
     });
 };
 
-export function handleProfileFormSubmit() {
-  const popupOpened = document.querySelector('.popup_opened');
-  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
-  renderLoading(true, buttonSubmit);
+export function handleProfileFormSubmit(evt) {
+  renderLoading(true, evt.submitter);
   api.editUserInfo(nameInput.value, jobInput.value)
     .then((result) => {
       userName.textContent = result.name;
       userProffesion.textContent = result.about;
       closePopup();
+      disableButtonSubmit(evt.submitter);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, buttonSubmit);
+      renderLoading(false, evt.submitter);
     });
 
 };
 
 export function handleAvatarFormSubmit(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
-  const buttonSubmit = popupOpened.querySelector('.form__savebtn')
-  renderLoading(true, buttonSubmit);
+  renderLoading(true, evt.submitter);
   api.editAvatar(avatarInput.value)
     .then((user) => {
       avatarImage.style.backgroundImage = `URL(${user.avatar})`;
       closePopup();
       evt.target.reset();
-      const buttonSubmit = avatarPopup.querySelector('.form__savebtn');
-      disableButtonSubmit(buttonSubmit);
+      disableButtonSubmit(evt.submitter);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, buttonSubmit);
+      renderLoading(false, evt.submitter);
     });
 };
 
