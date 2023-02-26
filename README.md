@@ -20,4 +20,6 @@
 
 ## Ссылка на проект на GitHub Pages: <a href="https://kglidiya.github.io/mesto-project/">Mesto</a>
 
+![alt text]( https://github.com/kglidiya/mesto-project/blob/main/src/images/Preview%20(2).jpg)
+
 
